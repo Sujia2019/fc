@@ -5,8 +5,11 @@ import io.lettuce.core.RedisURI;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
+import javax.annotation.PostConstruct;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 
@@ -39,7 +42,22 @@ public class RedisUtil {
         commands = getConnection();
     }
 
+//    @PostConstruct
+//    public void init(){
+//        RedisURI uri = RedisURI.builder()
+//                .withHost(host)
+//                .withPort(port)
+//                .withTimeout(Duration.of(10, ChronoUnit.SECONDS))
+//                .build();                                         //创建单机连接信息
+//
+//        RedisClient client = RedisClient.create(uri);                         //创建客户端
+//        connection = client.connect();                            //创建线程安全
+//        commands = getConnection();
+//    }
 
+
+
+//    @Bean
     public static RedisCommands<String,String> getConnection(){
         return connection.sync();
     }
@@ -53,7 +71,9 @@ public class RedisUtil {
                 commands.hset(userId,WINCOUNT,""+playerInfo.getWinCount())&&
                 commands.hset(userId,MONEY,""+playerInfo.getMoney())&&
                 commands.hset(userId,RANK,""+playerInfo.getRank())&&
-                commands.hset(userId,CLIMBLEVEL,""+playerInfo.getClimbLevel());
+                commands.hset(userId,CLIMBLEVEL,""+playerInfo.getClimbLevel())&&
+                commands.expire(userId,60*60*24*7);
+        //7天过期时间
 
     }
 
@@ -74,6 +94,7 @@ public class RedisUtil {
         commands.hset(userId,MONEY,"0");
         commands.hset(userId,CLIMBLEVEL,"0");
         commands.hset(userId,RANK,"10");
+        commands.expire(userId,60*60*24*7);
     }
 
     public static PlayerInfo getPlayer(String userId){

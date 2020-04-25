@@ -59,17 +59,17 @@ public class UserFactory extends MessageAbstractFactory{
         if(null!=login(us)){
             String userId = us.getUserId();
             PlayerInfo player ;
-            //如果在redis里
-            if(RedisUtil.isContainsKey(userId)){
-                System.out.println("redis");
-                player = RedisUtil.getPlayer(userId);
-            }
-            //如果没在redis里
-            else{
-                System.out.println("MySQL");
-                player = getPlayer(userId);
-            }
-
+//            //如果在redis里
+//            if(RedisUtil.isContainsKey(userId)){
+//                System.out.println("redis");
+//                player = RedisUtil.getPlayer(userId);
+//            }
+//            //如果没在redis里
+//            else{
+//                System.out.println("MySQL");
+//                player = getPlayer(userId);
+//            }
+            player = getPlayer(userId);
             MessageHandler.userMap.put(userId,ctx.channel().id());
 //            msg.setMsgCode(CODE.SUCCESS);
             msg.setObj(player);
@@ -79,6 +79,9 @@ public class UserFactory extends MessageAbstractFactory{
         return msg;
     }
 
+    /*
+    @Before
+     */
     private String login(UserInfo user) {
         System.out.println(user.getUserId());
         if(isUser(user.getUserId())){
@@ -88,6 +91,9 @@ public class UserFactory extends MessageAbstractFactory{
         return null;
     }
 
+    /*
+    @After
+     */
     private boolean regist(UserInfo user) {
         if (!isUser(user.getUserId())){
             return dao.insertUser(user) == 1;
@@ -107,11 +113,11 @@ public class UserFactory extends MessageAbstractFactory{
         player.setUserName("test");
         player.setRank(10);
         //数据库初始化玩家信息
-        if(0!=dao.insertPlayer(player)){
-//            redis缓存一份
-            RedisUtil.updatePlayer(player);
-        }
-
+//        if(0!=dao.insertPlayer(player)){
+////            redis缓存一份
+//            RedisUtil.updatePlayer(player);
+//        }
+        dao.insertPlayer(player);
     }
 
     private boolean updatePlayer(PlayerInfo player){
@@ -119,7 +125,11 @@ public class UserFactory extends MessageAbstractFactory{
     }
 
     private PlayerInfo getPlayer(String userId){
-        return dao.getPlayer(userId);
+        PlayerInfo player = dao.getPlayer(userId);
+//        if(player!=null){
+//            RedisUtil.updatePlayer(player);
+//        }
+        return player;
     }
 
     private Message handleUpdate(Message msg){

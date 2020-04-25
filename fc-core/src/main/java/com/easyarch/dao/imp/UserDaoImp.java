@@ -25,22 +25,33 @@ public class UserDaoImp implements UserDao {
 
     }
 
-
+    /*
+    @Before
+     */
     @Override
     public int searchById(String id) {
         return sqlSession.selectOne("searchById",DigestUtils.md5Hex(id));
     }
 
+    /*
+    @Before
+     */
     @Override
     public int searchByName(String name) {
         return sqlSession.selectOne("searchByName",name);
     }
 
+    /*
+    @Before
+     */
     @Override
     public UserInfo searchUserById(String id) {
         return sqlSession.selectOne("searchUserById",DigestUtils.md5Hex(id));
     }
 
+    /*
+    @After
+     */
     @Override
     public int insertUser(UserInfo user) {
         int x = sqlSession.insert("insertUser",setMd5Hex(user));
@@ -58,6 +69,9 @@ public class UserDaoImp implements UserDao {
         }
     }
 
+    /*
+    @After
+     */
     @Override
     public int updatePlayer(PlayerInfo player) {
         int x = sqlSession.update("updatePlayer",player);
@@ -65,11 +79,18 @@ public class UserDaoImp implements UserDao {
         return x;
     }
 
+    /*
+    切点
+    @Before
+    */
     public PlayerInfo getPlayer(String userId){
         System.out.println(userId);
         return sqlSession.selectOne("getPlayer",userId);
     }
 
+    /*
+    切点@After
+     */
     public int insertPlayer(PlayerInfo player){
         int x = sqlSession.insert("insertPlayer",player);
         sqlSession.commit();
