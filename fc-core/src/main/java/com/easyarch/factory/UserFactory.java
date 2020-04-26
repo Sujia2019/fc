@@ -1,6 +1,6 @@
 package com.easyarch.factory;
 
-import com.easyarch.dao.imp.UserDaoImp;
+import com.easyarch.dao.mapper.UserMapper;
 import com.easyarch.model.Message;
 import com.easyarch.model.PlayerInfo;
 import com.easyarch.model.UserInfo;
@@ -8,6 +8,7 @@ import com.easyarch.model.code.CODE;
 import com.easyarch.net.MessageHandler;
 import com.easyarch.utils.RedisUtil;
 import io.netty.channel.ChannelHandlerContext;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Component;
 public class UserFactory extends MessageAbstractFactory{
 
     @Autowired
-    private UserDaoImp dao ;
+    private UserMapper dao ;
 
 //    private UserDaoImp dao = new UserDaoImp();
 
@@ -59,17 +60,18 @@ public class UserFactory extends MessageAbstractFactory{
         if(null!=login(us)){
             String userId = us.getUserId();
             PlayerInfo player ;
-//            //如果在redis里
-//            if(RedisUtil.isContainsKey(userId)){
-//                System.out.println("redis");
-//                player = RedisUtil.getPlayer(userId);
-//            }
-//            //如果没在redis里
-//            else{
-//                System.out.println("MySQL");
-//                player = getPlayer(userId);
-//            }
-            player = getPlayer(userId);
+            //如果在redis里
+            if(RedisUtil.isContainsKey(userId)){
+                System.out.println("redis");
+                player = RedisUtil.getPlayer(userId);
+            }
+            //如果没在redis里
+            else{
+                System.out.println("MySQL");
+                player = getPlayer(userId);
+            }
+
+//            player = getPlayer(userId);
             MessageHandler.userMap.put(userId,ctx.channel().id());
 //            msg.setMsgCode(CODE.SUCCESS);
             msg.setObj(player);
@@ -85,6 +87,7 @@ public class UserFactory extends MessageAbstractFactory{
     private String login(UserInfo user) {
         System.out.println(user.getUserId());
         if(isUser(user.getUserId())){
+            user = setMd5Hex(user);
             UserInfo userInfo = dao.searchUserByUserInfo(user);
             return userInfo.getUserId();
         }
@@ -96,6 +99,7 @@ public class UserFactory extends MessageAbstractFactory{
      */
     private boolean regist(UserInfo user) {
         if (!isUser(user.getUserId())){
+            user = setMd5Hex(user);
             return dao.insertUser(user) == 1;
         }
         return false;
@@ -112,12 +116,14 @@ public class UserFactory extends MessageAbstractFactory{
         player.setUserId(id);
         player.setUserName("test");
         player.setRank(10);
+
         //数据库初始化玩家信息
-//        if(0!=dao.insertPlayer(player)){
-////            redis缓存一份
-//            RedisUtil.updatePlayer(player);
-//        }
-        dao.insertPlayer(player);
+        if(0!=dao.insertPlayer(player)){
+//            redis缓存一份
+            RedisUtil.updatePlayer(player);
+        }
+
+//        dao.insertPlayer(player);
     }
 
     private boolean updatePlayer(PlayerInfo player){
@@ -126,9 +132,11 @@ public class UserFactory extends MessageAbstractFactory{
 
     private PlayerInfo getPlayer(String userId){
         PlayerInfo player = dao.getPlayer(userId);
+
 //        if(player!=null){
 //            RedisUtil.updatePlayer(player);
 //        }
+
         return player;
     }
 
@@ -155,4 +163,15 @@ public class UserFactory extends MessageAbstractFactory{
         return msg;
     }
 
+    /*
+    数据加密
+     */
+    private UserInfo setMd5Hex(UserInfo user){
+        UserInfo userInfo = new UserInfo();
+        String pwd = DigestUtils.md5Hex(user.getUserPwd());
+        String id = DigestUtils.md5Hex(user.getUserId());
+        userInfo.setUserId(id);
+        userInfo.setUserPwd(pwd);
+        return userInfo;
+    }
 }

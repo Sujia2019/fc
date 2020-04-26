@@ -19,7 +19,7 @@ public class RedisCache {
     } // the pointcut signature
 
 
-    @Before("com.ease.archiecture.springaop.aopannotation.AopTest.anyOldTransfer()")
+//    @Before("com.ease.archiecture.springaop.aopannotation.AopTest.anyOldTransfer()")
 //    @After()
 //    @Around()
     private void addBeforePrint(JoinPoint point) {

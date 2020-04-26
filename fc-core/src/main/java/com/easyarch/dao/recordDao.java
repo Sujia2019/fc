@@ -2,9 +2,11 @@ package com.easyarch.dao;
 
 
 import com.easyarch.model.other.FightRecord;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+//@Repository
 public interface recordDao {
 
     int insertRecord();
@@ -14,4 +16,6 @@ public interface recordDao {
     int searchRecordCount();
 
     int searchRecordCountById(String userId);
+
+
 }

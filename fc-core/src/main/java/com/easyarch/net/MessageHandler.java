@@ -19,7 +19,7 @@ import java.util.concurrent.Executors;
 
 @Component
 @ChannelHandler.Sharable
-public class MessageHandler extends SimpleChannelInboundHandler<Message> {
+public class MessageHandler extends SimpleChannelInboundHandler<Message>{
 
     @Autowired
     private MessageInvoker invoker ;

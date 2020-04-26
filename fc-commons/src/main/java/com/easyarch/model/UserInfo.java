@@ -27,6 +27,9 @@ public class UserInfo implements Serializable {
         this.userPwd = userPwd;
     }
 
+    public UserInfo(){
+
+    }
     @Override
     public String toString(){
         return "UserInfo(userId:" +userId+

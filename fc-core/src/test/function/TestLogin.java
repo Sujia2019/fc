@@ -9,6 +9,7 @@ import java.util.concurrent.CountDownLatch;
 public class TestLogin {
 
     static volatile String player ;
+    static long start;
 
     public static void main(String[] args) {
         final CountDownLatch cdl = new CountDownLatch(1);
@@ -19,10 +20,16 @@ public class TestLogin {
         message.setMsgCode(CODE.LOGIN);
 
         UserInfo userInfo = new UserInfo();
-        userInfo.setUserId("iiii");
+        userInfo.setUserId("dddd");
         userInfo.setUserPwd("123456");
         message.setObj(userInfo);
-        client.sendMessage(message);
+        start = System.currentTimeMillis();
+        for(int i=0;i<10;i++){
+            //执行10次
+            client.sendMessage(message);
+        }
+//        client.sendMessage(message);
+
 
 
 

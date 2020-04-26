@@ -21,7 +21,9 @@ public class PlayerInfo implements Serializable {
      */
 //    private
 
+    public PlayerInfo(){
 
+    }
     public String getUserId() {
         return userId;
     }

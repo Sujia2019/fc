@@ -12,6 +12,10 @@ public class Operation {
     private String enemyId;
     private Robot robot;
 
+    public Operation(){
+
+    }
+
     @Override
     public String toString(){
         return "Operation(level:" +level+
