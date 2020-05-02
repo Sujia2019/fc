@@ -1,10 +1,10 @@
-package com.easyarch.service.imp;
+package com.easyarch.serviceImp;
 
+import com.easyarch.api.chat.FriendService;
 import com.easyarch.dao.UserDao;
-import com.easyarch.entity.FriendRequest;
-import com.easyarch.entity.Type.DealType;
 import com.easyarch.handler.NettyServerInitializer;
-import com.easyarch.service.FriendService;
+import com.easyarch.model.chat.FriendRequest;
+import com.easyarch.model.chat.Type.DealType;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
  * 添加好友  留言 等
  */
 @Service
-public class FriendServiceImp implements FriendService {
+public class FriendServiceImp extends FriendService {
     private UserDao userDao;
 
     public Object getObj(Object obj){

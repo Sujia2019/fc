@@ -1,26 +1,19 @@
 package com.easyarch.factory;
 
-
-import com.easyarch.invoker.MessageInvoker;
+import com.easyarch.api.MessageFactory;
 import com.easyarch.model.Message;
-import com.easyarch.net.MessageHandler;
 import io.netty.channel.ChannelHandlerContext;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-
-@Component
-public abstract class MessageAbstractFactory{
+public abstract class MessageAbstractFactory implements MessageFactory {
 
     ChannelHandlerContext ctx;
-
     /*
     必须实现的方法
      */
     public abstract Message handle(Message msg);
 
 
-    @Autowired
+//    @Autowired
     MessageAbstractFactory(){
         /*
         ...

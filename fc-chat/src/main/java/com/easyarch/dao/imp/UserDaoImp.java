@@ -1,7 +1,7 @@
 package com.easyarch.dao.imp;
 
 import com.easyarch.dao.UserDao;
-import com.easyarch.entity.UserInfo;
+import com.easyarch.model.UserInfo;
 import com.easyarch.utils.MybatisConf;
 import org.apache.ibatis.session.SqlSession;
 

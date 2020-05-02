@@ -1,4 +1,4 @@
-package com.easyarch.entity.Type;
+package com.easyarch.model.chat.Type;
 
 import java.io.Serializable;
 

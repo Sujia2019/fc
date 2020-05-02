@@ -1,4 +1,4 @@
-package com.easyarch.entity;
+package com.easyarch.model.chat;
 
 
 import lombok.Data;

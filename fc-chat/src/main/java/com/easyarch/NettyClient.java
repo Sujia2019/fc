@@ -2,8 +2,8 @@ package com.easyarch;
 
 import com.easyarch.handler.NettyDecoder;
 import com.easyarch.handler.NettyEncoder;
-import com.easyarch.handler.model.Message;
-import com.easyarch.utils.ProtoStuffSerializer;
+import com.easyarch.model.Message;
+import com.easyarch.serialize.imp.ProtoStuffSerializer;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;

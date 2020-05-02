@@ -1,10 +1,8 @@
 package com.easyarch.handler;
 
-import com.easyarch.NettyServer;
-import com.easyarch.entity.UserInfo;
-import com.easyarch.handler.model.Message;
-import com.easyarch.utils.ProtoStuffSerializer;
-import com.easyarch.utils.Serializer;
+import com.easyarch.model.Message;
+import com.easyarch.serialize.Serializer;
+import com.easyarch.serialize.imp.ProtoStuffSerializer;
 import io.netty.channel.*;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;

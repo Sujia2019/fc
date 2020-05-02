@@ -1,8 +1,5 @@
-package com.easyarch.factory;
+package com.easyarch.api;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public interface MatchMethod {
 
     /**

@@ -1,10 +1,9 @@
 package com.easyarch;
 
-import com.easyarch.entity.SendMessage;
-import com.easyarch.entity.Type.MsgType;
-import com.easyarch.entity.UserInfo;
-import com.easyarch.handler.model.CODE;
-import com.easyarch.handler.model.Message;
+
+import com.easyarch.model.Message;
+import com.easyarch.model.UserInfo;
+import com.easyarch.model.code.CODE;
 
 public class ClientTest {
     public static void main(String[] args) {
@@ -22,7 +21,7 @@ public class ClientTest {
             UserInfo us = new UserInfo();
             us.setUserId("444444");
             us.setUserPwd("123456");
-            us.setUserName("test4");
+//            us.setUserName("test4");
             message.setMsgCode(CODE.REGIST);
             message.setObj(us);
 

@@ -9,8 +9,6 @@ import io.netty.channel.SimpleChannelInboundHandler;
 
 public class SimpleClientHandler extends SimpleChannelInboundHandler<Message> {
 
-    public static long end;
-
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Message msg) throws Exception {
 
@@ -32,8 +30,6 @@ public class SimpleClientHandler extends SimpleChannelInboundHandler<Message> {
             }
             TestFight.attr = op.getAttribute();
         }
-        end = System.currentTimeMillis();
         System.out.println("收到的返回信息:"+code+"收到服务器的数据:"+msg.getObj());
-        System.out.println(end-TestLogin.start);
     }
 }

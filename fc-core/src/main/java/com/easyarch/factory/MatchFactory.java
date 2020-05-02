@@ -1,15 +1,13 @@
 package com.easyarch.factory;
 
+import com.easyarch.api.MatchMethod;
 import com.easyarch.model.Message;
 import com.easyarch.model.Operation;
 import com.easyarch.model.code.CODE;
 import com.easyarch.net.MessageHandler;
 import com.easyarch.utils.RedisUtil;
-
 import io.netty.channel.ChannelId;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;

@@ -1,11 +1,11 @@
-package com.easyarch.service.imp;
+package com.easyarch.serviceImp;
 
-import com.easyarch.entity.Type.MsgType;
-import com.easyarch.entity.SendMessage;
+import com.easyarch.api.chat.ChatService;
 import com.easyarch.handler.NettyServerInitializer;
-import com.easyarch.handler.model.CODE;
-import com.easyarch.handler.model.Message;
-import com.easyarch.service.ChatService;
+import com.easyarch.model.Message;
+import com.easyarch.model.chat.SendMessage;
+import com.easyarch.model.chat.Type.MsgType;
+import com.easyarch.model.code.CODE;
 import com.easyarch.utils.TimeUtils;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
@@ -13,7 +13,7 @@ import io.netty.channel.group.ChannelGroup;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ChatServiceImp implements ChatService {
+public class ChatServiceImp extends ChatService {
 //    Lo
 
     public Object getObj(Object msg){

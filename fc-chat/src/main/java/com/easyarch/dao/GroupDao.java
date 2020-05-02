@@ -1,6 +1,6 @@
 package com.easyarch.dao;
 
-import com.easyarch.entity.GroupMsg;
+import com.easyarch.model.chat.GroupMsg;
 
 public interface GroupDao {
 

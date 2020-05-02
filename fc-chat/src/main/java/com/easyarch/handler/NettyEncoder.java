@@ -1,9 +1,11 @@
 package com.easyarch.handler;
 
-import com.easyarch.utils.Serializer;
+
+import com.easyarch.serialize.Serializer;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
+
 
 public class NettyEncoder extends MessageToByteEncoder<Object> {
     private Class<?> genericClass;

@@ -1,4 +1,4 @@
-package com.easyarch.entity.Type;
+package com.easyarch.model.chat.Type;
 
 public class GroupStatus {
     public static final short APPLY = 1;  //申请

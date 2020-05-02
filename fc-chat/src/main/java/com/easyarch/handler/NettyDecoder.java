@@ -1,11 +1,12 @@
 package com.easyarch.handler;
 
-import com.easyarch.utils.Serializer;
+import com.easyarch.serialize.Serializer;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 
 import java.util.List;
+
 
 public class NettyDecoder extends ByteToMessageDecoder {
     private Class<?> genericClass;

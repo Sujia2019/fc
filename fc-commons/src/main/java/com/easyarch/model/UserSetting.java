@@ -1,4 +1,4 @@
-package com.easyarch.entity;
+package com.easyarch.model;
 
 import lombok.Data;
 

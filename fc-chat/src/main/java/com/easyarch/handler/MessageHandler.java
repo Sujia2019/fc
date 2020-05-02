@@ -1,13 +1,13 @@
 package com.easyarch.handler;
 
 import com.easyarch.NettyServer;
-import com.easyarch.entity.UserInfo;
-import com.easyarch.handler.model.CODE;
-import com.easyarch.handler.model.Message;
-import com.easyarch.service.imp.ChatServiceImp;
-import com.easyarch.service.imp.FriendServiceImp;
-import com.easyarch.service.imp.GroupServiceImp;
-import com.easyarch.service.imp.UserServiceImp;
+import com.easyarch.model.Message;
+import com.easyarch.model.UserInfo;
+import com.easyarch.model.code.CODE;
+import com.easyarch.serviceImp.ChatServiceImp;
+import com.easyarch.serviceImp.FriendServiceImp;
+import com.easyarch.serviceImp.GroupServiceImp;
+import com.easyarch.serviceImp.UserServiceImp;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +35,7 @@ public class MessageHandler extends SimpleChannelInboundHandler<Message> {
         System.out.println("code:"+msgType);
         Object obj = msg.getObj();
         //根据消息代码 分发给不同的service处理...
-        if(msgType<10){
+//        if(msgType<10){
             if(msgType == CODE.REGIST){
                 System.out.println("REGIST");
                 NettyServer.pool.execute(new Runnable() {
@@ -92,7 +92,7 @@ public class MessageHandler extends SimpleChannelInboundHandler<Message> {
                     }
                 });
             }
-        }
+//        }
     }
 
 

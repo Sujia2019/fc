@@ -18,7 +18,7 @@ public class TestMatch {
 
         message.setMsgCode(CODE.LOGIN);
         UserInfo userInfo = new UserInfo();
-        userInfo.setUserId("iiii");
+        userInfo.setUserId("mmmm");
         userInfo.setUserPwd("123456");
         message.setObj(userInfo);
         client.sendMessage(message);
@@ -27,7 +27,7 @@ public class TestMatch {
             Thread.sleep(100);
             Message m = new Message();
             m.setMsgCode(CODE.MATCH);
-            m.setObj("iiii");
+            m.setObj("mmmm");
             client.sendMessage(m);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -43,7 +43,7 @@ public class TestMatch {
                         Message m = new Message();
                         m.setMsgCode(CODE.MATCH_FAIL);
 
-                        m.setObj("iiii");
+                        m.setObj("mmmm");
 
                         client.sendMessage(m);
                         break;

@@ -1,9 +1,8 @@
-package com.easyarch.service.imp;
+package com.easyarch.serviceImp;
 
 import com.easyarch.dao.UserDao;
 import com.easyarch.dao.imp.UserDaoImp;
-import com.easyarch.entity.UserInfo;
-import com.easyarch.service.UserService;
+import com.easyarch.model.UserInfo;
 import org.springframework.stereotype.Service;
 
 @Service

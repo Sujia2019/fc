@@ -1,8 +1,8 @@
-package com.easyarch.service;
+package com.easyarch.api.chat;
 
-import com.easyarch.entity.FriendRequest;
+import com.easyarch.model.chat.FriendRequest;
 
-public interface FriendService {
+public abstract class FriendService {
 
 
     /**
@@ -10,7 +10,7 @@ public interface FriendService {
      * @param fq 好友请求
      * @return 是否发送成功 (因为有人是拒绝好友申请的设置)
      */
-    boolean sendFriendRequest(FriendRequest fq);
+    public abstract boolean sendFriendRequest(FriendRequest fq);
 
     /**
      *
@@ -23,7 +23,7 @@ public interface FriendService {
      * 也有可能玩家一直不处理，这个是要入库的，在前端会一直提示存在
      *
      */
-    boolean sendFriendResponse(FriendRequest fq);
+    public abstract boolean sendFriendResponse(FriendRequest fq);
 
 
 

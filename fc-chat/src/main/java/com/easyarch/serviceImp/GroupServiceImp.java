@@ -1,9 +1,9 @@
-package com.easyarch.service.imp;
+package com.easyarch.serviceImp;
 
-import com.easyarch.entity.GroupMsg;
-import com.easyarch.entity.Type.GroupStatus;
+import com.easyarch.api.chat.GroupService;
 import com.easyarch.handler.NettyServerInitializer;
-import com.easyarch.service.GroupService;
+import com.easyarch.model.chat.GroupMsg;
+import com.easyarch.model.chat.Type.GroupStatus;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
 import io.netty.channel.group.ChannelGroup;
@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-public class GroupServiceImp implements GroupService {
+public class GroupServiceImp extends GroupService {
 
     public static Map<String, ChannelGroup> groupMap = new ConcurrentHashMap<>();
 

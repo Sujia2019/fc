@@ -106,7 +106,8 @@ public class UserFactory extends MessageAbstractFactory{
     }
 
     private boolean isUser(String id){
-        return dao.searchById(id) != 0;
+        String xxx = DigestUtils.md5Hex(id);
+        return dao.searchById(xxx) != 0;
     }
 
 
