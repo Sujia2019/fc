@@ -17,5 +17,7 @@ public class MsgType implements Serializable {
     public static final short ONE   = 2;
     public static final short GROUP = 3;
     public static final short GM    = 0;
+
     public static final short ERROR = 4;
+    public static final short SUCCESS = 6;
 }

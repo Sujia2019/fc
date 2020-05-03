@@ -1,6 +1,7 @@
 package com.easyarch.invoker;
 
 import com.easyarch.factory.*;
+import com.easyarch.factory.chat.ChatFactory;
 import com.easyarch.model.PlayerInfo;
 import com.easyarch.net.MessageHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -55,6 +56,9 @@ public class MessageInvoker {
 
     @Autowired
     private ExceptionFactory exceptionFactory;
+
+    @Autowired
+    private ChatFactory chatFactory;
 
     public Message handle(ChannelHandlerContext ctx, Message msg) {
         int code = msg.getMsgCode();

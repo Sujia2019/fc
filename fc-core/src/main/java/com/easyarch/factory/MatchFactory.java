@@ -1,6 +1,7 @@
 package com.easyarch.factory;
 
 import com.easyarch.api.MatchMethod;
+import com.easyarch.cache.Maps;
 import com.easyarch.model.Message;
 import com.easyarch.model.Operation;
 import com.easyarch.model.code.CODE;
@@ -35,9 +36,9 @@ public class MatchFactory extends MessageAbstractFactory implements MatchMethod 
     private Message handleFight(Message msg){
         Object obj = msg.getObj();
         String enemy = ((Operation)obj).getEnemyId();
-        ChannelId enemyId = MessageHandler.userMap.get(enemy);
+        ChannelId enemyId = Maps.userMap.get(enemy);
         //将你的操作直接发给敌人的客户端去处理
-        MessageHandler.group.find(enemyId).writeAndFlush(msg);
+        Maps.group.find(enemyId).writeAndFlush(msg);
         Message m = new Message();
         m.setMsgCode(CODE.SUCCESS);
         m.setObj("SUCCESS");
@@ -90,7 +91,7 @@ public class MatchFactory extends MessageAbstractFactory implements MatchMethod 
             Message toEnemy = new Message();
             toEnemy.setMsgCode(CODE.ENEMY);
             toEnemy.setObj(self);
-            MessageHandler.group.find(MessageHandler.userMap.get(enemy)).writeAndFlush(toEnemy);
+            Maps.group.find(Maps.userMap.get(enemy)).writeAndFlush(toEnemy);
         }
         return msg;
     }

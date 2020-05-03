@@ -26,11 +26,11 @@ public interface UserMapper {
     @Select("select userId from UserInfo where userId=#{userId} and userPwd = #{userPwd}")
     UserInfo searchUserByUserInfo(UserInfo user);
 
-    @Update("        update PlayerInfo set fightCount = #{fightCount} ,\n" +
-            "                              winCount = #{winCount},\n" +
-            "                              money = #{money},\n" +
-            "                              climbLevel = #{climbLevel},\n" +
-            "                              PlayerInfo.`rank` = #{rank} where userId = #{userId}")
+    @Update("update PlayerInfo set fightCount = #{fightCount} ,\n" +
+            "winCount = #{winCount},\n" +
+            "money = #{money},\n" +
+            "climbLevel = #{climbLevel},\n" +
+            "PlayerInfo.`rank` = #{rank} where userId = #{userId}")
     int updatePlayer(PlayerInfo player);
 
     @Select("select * from PlayerInfo where userId = #{userId,jdbcType=VARCHAR};")
@@ -39,5 +39,8 @@ public interface UserMapper {
     @Insert({"    insert into PlayerInfo(userId, userName, fightCount, winCount, money, climbLevel, PlayerInfo.`rank`)\n" +
             "         values (#{userId},#{userName},#{fightCount},#{winCount},#{money},#{climbLevel},#{rank})"})
     int insertPlayer(PlayerInfo player);
+
+    @Update("update UserInfo set userPwd = #{pwd} where userId = #{userId}")
+    int updateUserPwd(String userId,String pwd);
 
 }

@@ -3,7 +3,9 @@ package com.easyarch.factory;
 import com.easyarch.api.MessageFactory;
 import com.easyarch.model.Message;
 import io.netty.channel.ChannelHandlerContext;
+import org.springframework.stereotype.Component;
 
+@Component
 public abstract class MessageAbstractFactory implements MessageFactory {
 
     ChannelHandlerContext ctx;

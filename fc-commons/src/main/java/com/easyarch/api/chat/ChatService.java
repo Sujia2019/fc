@@ -10,11 +10,11 @@ public abstract class ChatService {
      * @param sm 发送的消息类型
      * @return 给客户端反馈
      */
-    public abstract Message sendMessageToOne(SendMessage sm);
+    public abstract SendMessage sendMessageToOne(SendMessage sm);
 
-    public abstract Message sendMessageToGroup(SendMessage sm);
+    public abstract SendMessage sendMessageToGroup(SendMessage sm);
 
-    public abstract Message sendMessageToAll(SendMessage sm);
+    public abstract SendMessage sendMessageToAll(SendMessage sm);
 
 
 }

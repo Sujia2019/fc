@@ -1,12 +1,15 @@
 package com.easyarch.factory;
 
+import com.easyarch.cache.Maps;
 import com.easyarch.dao.mapper.UserMapper;
+import com.easyarch.model.CodeRequest;
 import com.easyarch.model.Message;
 import com.easyarch.model.PlayerInfo;
 import com.easyarch.model.UserInfo;
 import com.easyarch.model.code.CODE;
 import com.easyarch.net.MessageHandler;
 import com.easyarch.utils.RedisUtil;
+import com.easyarch.utils.Verify;
 import io.netty.channel.ChannelHandlerContext;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,10 @@ public class UserFactory extends MessageAbstractFactory{
             return handleLogin(ctx,msg);
         }else if(code == CODE.REGIST){
             return handleRegist(ctx,msg);
+        }else if (code == CODE.REGIST_PHONE){
+            return handleCodeRegist(msg);
+        }else if(code ==  CODE.LOGIN_PHONE){
+            return handleCodeLogin(msg);
         }else if(code == CODE.UPDATE){
             return handleUpdate(msg);
         }else if(code == CODE.SAVE){
@@ -41,6 +48,9 @@ public class UserFactory extends MessageAbstractFactory{
         return msg;
     }
 
+    /*
+    普通的用户名密码注册
+     */
     private Message handleRegist(ChannelHandlerContext ctx, Message msg){
         UserInfo us = (UserInfo) msg.getObj();
         if(regist(us)){
@@ -53,33 +63,125 @@ public class UserFactory extends MessageAbstractFactory{
         msg.setObj("注册失败,此id已注册");
         return msg;
     }
-
+    /*
+    普通的用户名密码登录
+     */
     private Message handleLogin(ChannelHandlerContext ctx, Message msg){
         System.out.println("login----");
         UserInfo us = (UserInfo) msg.getObj();
         if(null!=login(us)){
             String userId = us.getUserId();
-            PlayerInfo player ;
-            //如果在redis里
-            if(RedisUtil.isContainsKey(userId)){
-                System.out.println("redis");
-                player = RedisUtil.getPlayer(userId);
-            }
-            //如果没在redis里
-            else{
-                System.out.println("MySQL");
-                player = getPlayer(userId);
-            }
 
-//            player = getPlayer(userId);
-            MessageHandler.userMap.put(userId,ctx.channel().id());
-//            msg.setMsgCode(CODE.SUCCESS);
+            PlayerInfo player = getPlayer(userId);
+
+            Maps.userMap.put(userId,ctx.channel().id());
             msg.setObj(player);
         }else{
             msg.setObj("登录失败,用户名或密码错误");
         }
         return msg;
     }
+
+    private Message handleCodeRegist(Message msg){
+        CodeRequest request = (CodeRequest)msg.getObj();
+        if(request.getStatus()==CODE.SEND){
+            msg.setObj(sendRegistCode(request.getPhoneNumber()));
+        }
+        else if(request.getStatus()==CODE.VERIFY){
+            msg.setObj(codeRegist(request.getPhoneNumber(),request.getCode()));
+        }else{
+            msg.setObj("Error");
+        }
+        return msg;
+
+    }
+    private Message handleCodeLogin(Message msg){
+        CodeRequest request = (CodeRequest)msg.getObj();
+        if(request.getStatus()==CODE.SEND){
+            msg.setObj(sendLoginCode(request.getPhoneNumber()));
+        }
+        else if(request.getStatus()==CODE.VERIFY){
+            PlayerInfo player = codeLogin(request.getPhoneNumber(),request.getCode());
+            if(null!=player){
+                Maps.userMap.put(request.getPhoneNumber(),ctx.channel().id());
+                msg.setObj(player);
+            }else{
+                msg.setObj("Error");
+            }
+        }else{
+            msg.setObj("Error");
+        }
+        return msg;
+    }
+
+    /*
+    发送验证码
+    思路，前端不论验证码登录还是验证码注册，先带着电话号
+    先判断是否有这个用户---再进行业务
+    发送成功后将电话号和code存redis，用户第二次输入验证码发的是UserInfo，userId就是电话号，密码就是code，
+    但实际存数据库的是随机数，需要用户自己重置密码
+     */
+    private String sendRegistCode(String phoneNumber){
+        //如果用户不存在
+        if(!isUser(phoneNumber)){
+            //发送验证码
+            Verify.sendCode(phoneNumber);
+            return "发送成功";
+        }else{
+            return "发送失败，该手机号已注册！";
+        }
+    }
+    /*
+    验证码是否正确
+     */
+    private boolean isCodeCorrect(String userId,String code){
+        if(RedisUtil.isContainsKey(userId)){
+            String codeS = RedisUtil.getConnection().get(userId);
+            return codeS.equals(code);
+        }
+        return false;
+    }
+
+    private String sendLoginCode(String phoneNumber){
+        //如果用户存在
+        if(isUser(phoneNumber)){
+            //发送验证码
+            Verify.sendCode(phoneNumber);
+            return "发送成功";
+        }else{
+            return "发送失败，该手机号未绑定用户！";
+        }
+    }
+
+    private Object codeRegist(String phoneNumber,String code){
+//        String userId = ()
+//        UserInfo user = (CodeRequest)msg.getObj();
+        //如果验证码正确
+        if(isCodeCorrect(phoneNumber,code)){
+            RedisUtil.removeKey(phoneNumber);
+            //注册
+            UserInfo user = new UserInfo();
+            user.setUserId(phoneNumber);
+            user.setUserPwd(randomPwd());
+            regist(user);
+            return playerInit(phoneNumber);
+        }else{
+            return "验证码错误";
+        }
+
+    }
+
+    private PlayerInfo codeLogin(String phoneNumber,String code){
+        //如果验证码正确
+        if(isCodeCorrect(phoneNumber, code)){
+            RedisUtil.removeKey(phoneNumber);
+            return getPlayer(phoneNumber);
+        }
+        else{
+            return null;
+        }
+    }
+
 
     /*
     @Before
@@ -110,37 +212,50 @@ public class UserFactory extends MessageAbstractFactory{
         return dao.searchById(xxx) != 0;
     }
 
-
-    private void playerInit(String id){
-
+    /*
+    初始化玩家信息
+     */
+    private PlayerInfo playerInit(String id){
         PlayerInfo player = new PlayerInfo();
         player.setUserId(id);
         player.setUserName("test");
         player.setRank(10);
 
         //数据库初始化玩家信息
+//        dao.insertPlayer(player);
         if(0!=dao.insertPlayer(player)){
 //            redis缓存一份
             RedisUtil.updatePlayer(player);
         }
-
-//        dao.insertPlayer(player);
+        return player;
+//
     }
 
     private boolean updatePlayer(PlayerInfo player){
         return dao.updatePlayer(player) != 0;
     }
 
-    private PlayerInfo getPlayer(String userId){
-        PlayerInfo player = dao.getPlayer(userId);
-
+    public PlayerInfo getPlayer(String userId){
+        PlayerInfo player = null;
+         //如果在redis里
+        if(RedisUtil.isContainsKey(userId)){
+            System.out.println("Redis");
+            player = RedisUtil.getPlayer(userId);
+        }
+        //如果没在redis里
+        else{
+            System.out.println("MySQL");
+            player = dao.getPlayer(userId);
+        }
 //        if(player!=null){
 //            RedisUtil.updatePlayer(player);
 //        }
-
         return player;
     }
 
+    /*
+    更新玩家信息
+     */
     private Message handleUpdate(Message msg){
         PlayerInfo player = (PlayerInfo)msg.getObj();
 //
@@ -150,6 +265,9 @@ public class UserFactory extends MessageAbstractFactory{
         return msg;
     }
 
+    /*
+    保存
+     */
     private Message handleSave(Message msg){
         Object obj = msg.getObj();
         String userId = (String) obj;
@@ -165,6 +283,13 @@ public class UserFactory extends MessageAbstractFactory{
     }
 
     /*
+    设置密码
+     */
+    private void handleSetPwd(String userId,String pwd){
+        dao.updateUserPwd(DigestUtils.md5Hex(userId),DigestUtils.md5Hex(pwd));
+    }
+
+    /*
     数据加密
      */
     private UserInfo setMd5Hex(UserInfo user){
@@ -174,5 +299,10 @@ public class UserFactory extends MessageAbstractFactory{
         userInfo.setUserId(id);
         userInfo.setUserPwd(pwd);
         return userInfo;
+    }
+
+    private String randomPwd(){
+        int codeInt = (int)((Math.random()*9+1)*10000000);
+        return String.valueOf(codeInt);
     }
 }

@@ -15,12 +15,12 @@ public class SendMessage implements Serializable {
     private String toId;    //发给谁
     private String msg;     //发送信息
 
-    @Override
-    public String toString(){
-        return "{\"fromId\":" + fromId +
-                ",\"type\":" + type +
-                ",\"toGroupId\":" + toGroupId +
-                ",\"toId\":" + toId +
-                ",\"msg\":" + msg+"}";
-    }
+//    @Override
+//    public String toString(){
+//        return "{\"fromId\":" + fromId +
+//                ",\"type\":" + type +
+//                ",\"toGroupId\":" + toGroupId +
+//                ",\"toId\":" + toId +
+//                ",\"msg\":" + msg+"}";
+//    }
 }

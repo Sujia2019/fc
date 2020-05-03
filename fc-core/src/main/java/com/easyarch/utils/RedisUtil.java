@@ -124,6 +124,15 @@ public class RedisUtil {
         return x != 0;
     }
 
+    public static void insertCode(String phoneNumber,String code){
+        commands.set(phoneNumber,code);
+        commands.expire(phoneNumber,60*5);
+    }
+
+    public static void removeKey(String key){
+        commands.del(key);
+    }
+
 
     public static final String USERNAME = "userName";
     public static final String USERID = "userId";

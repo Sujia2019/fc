@@ -19,6 +19,20 @@ public class CODE {
     */
     public static final int SAVE = 3;
     /*
+    短信验证码注册
+     */
+    public static final int REGIST_PHONE=4;
+    /*
+    短信验证码登录
+     */
+    public static final int LOGIN_PHONE=5;
+
+    /*
+    验证码状态
+     */
+    public static final int SEND = 6;
+    public static final int VERIFY = 7;
+    /*
     用户
      */
     public static final int USER_TYPE = 10;

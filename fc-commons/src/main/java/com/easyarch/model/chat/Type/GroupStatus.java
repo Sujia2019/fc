@@ -7,4 +7,7 @@ public class GroupStatus {
     public static final short DEALING = 3;    //处理中
     public static final short SETTING = 4;    //设置，如 添加管理
 
+    public static final short ERROR = 5;
+    public static final short SUCCESS = 6;
+
 }

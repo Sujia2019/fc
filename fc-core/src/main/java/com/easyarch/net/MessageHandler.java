@@ -1,5 +1,6 @@
 package com.easyarch.net;
 
+import com.easyarch.cache.Maps;
 import com.easyarch.invoker.MessageInvoker;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -26,10 +27,6 @@ public class MessageHandler extends SimpleChannelInboundHandler<Message>{
 
     private static ExecutorService pool = Executors.newFixedThreadPool(20);
 
-    public static ChannelGroup group = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
-
-    public static Map<String, ChannelId> userMap = new ConcurrentHashMap<>();
-
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Message msg) throws Exception {
         int code = msg.getMsgCode();
@@ -48,7 +45,7 @@ public class MessageHandler extends SimpleChannelInboundHandler<Message>{
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
         System.out.println("-------Regist-------");
-        group.add(ctx.channel());
+        Maps.group.add(ctx.channel());
         super.channelRegistered(ctx);
     }
 
