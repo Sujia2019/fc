@@ -16,7 +16,7 @@ public class Verify {
         String i = String.valueOf(codeInt);
 
         DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou",
-                "LTAI4GFFa7j5VPV46W4xUcWW", "i0wx4NkpGql6JVipFCne4ic8rw6Cd7");
+                "your-accesskey", "your-accesskey-password");
         IAcsClient client = new DefaultAcsClient(profile);
 
         CommonRequest request = new CommonRequest();
@@ -26,8 +26,8 @@ public class Verify {
         request.setSysAction("SendSms");
         request.putQueryParameter("RegionId", "cn-hangzhou");
         request.putQueryParameter("PhoneNumbers", phoneNumber);
-        request.putQueryParameter("SignName", "灵魂决斗");
-        request.putQueryParameter("TemplateCode", "SMS_189611057");
+        request.putQueryParameter("SignName", "xxx");
+        request.putQueryParameter("TemplateCode", "SMS_xxx");
         request.putQueryParameter("TemplateParam", "{\"code\":\""+i+"\"}");
         try {
             CommonResponse response = client.getCommonResponse(request);
