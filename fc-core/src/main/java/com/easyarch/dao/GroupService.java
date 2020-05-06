@@ -1,6 +1,6 @@
-package com.easyarch.api.chat;
+package com.easyarch.dao;
 
-import com.easyarch.model.chat.GroupMsg;
+import com.easyarch.dao.mapper.GroupMsg;
 
 public abstract class GroupService {
 
@@ -15,11 +15,10 @@ public abstract class GroupService {
     public abstract GroupMsg destroyGroup(GroupMsg groupMsg);
 
     //添加管理员
-    public abstract GroupMsg addManager(String groupId, String userId);
-
+    public abstract GroupMsg insertManager(String groupId, String userId);
 
     //退出该组
-    public abstract GroupMsg quitGroup();
+    public abstract GroupMsg quitGroup(String groupId,String userId);
 
 
 }

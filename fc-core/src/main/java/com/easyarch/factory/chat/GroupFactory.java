@@ -1,11 +1,11 @@
 package com.easyarch.factory.chat;
 
 import com.easyarch.api.MessageFactory;
-import com.easyarch.api.chat.GroupService;
 import com.easyarch.cache.Maps;
-import com.easyarch.dao.mapper.GroupMapper;
+import com.easyarch.dao.mapper.GroupMsg;
+import com.easyarch.dao.GroupService;
+import com.easyarch.dao.mapper.GroupDao;
 import com.easyarch.model.Message;
-import com.easyarch.model.chat.GroupMsg;
 import com.easyarch.model.chat.Type.GroupStatus;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
@@ -21,7 +21,7 @@ import java.util.List;
 public class GroupFactory extends GroupService implements MessageFactory{
 
     @Autowired
-    private GroupMapper mapper;
+    private GroupDao dao;
 
     @Override
     public Message handle(Message msg){
@@ -49,25 +49,43 @@ public class GroupFactory extends GroupService implements MessageFactory{
             return null;
         }else{
             Maps.groupMap.put(groupId,cg);
-            return null;
         }
+        //入库一份
+        dao.createGroup(group);
+        return group;
     }
 
+    /*
+    彻底删除组
+     */
     @Override
     public GroupMsg destroyGroup(GroupMsg group) {
         Maps.groupMap.remove(group.getGroupId());
+        dao.deleteGroup(group.getGroupId());
         return null;
     }
 
+    /*
+    添加管理员
+     */
     @Override
-    public GroupMsg addManager(String groupId, String userId) {
-
-        return null;
+    public GroupMsg insertManager(String groupId, String userId) {
+        dao.insertManager(groupId,userId);
+        return dao.searchGroup(groupId);
     }
 
+    /*
+    退出该组
+     */
     @Override
-    public GroupMsg quitGroup() {
+    public GroupMsg quitGroup(String groupId, String userId) {
+        ChannelId channelId = Maps.userMap.get(userId);
 
+        Channel future = Maps.groupMap.get(groupId).find(channelId);
+        Maps.groupMap.get(groupId).remove(future);
+
+        dao.delMember(groupId,userId);
         return null;
     }
+
 }

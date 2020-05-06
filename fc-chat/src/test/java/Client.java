@@ -4,6 +4,7 @@ import com.easyarch.entity.Type.MsgType;
 import com.easyarch.entity.UserInfo;
 import com.easyarch.handler.model.CODE;
 import com.easyarch.handler.model.Message;
+import com.easyarch.model.UserInfo;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

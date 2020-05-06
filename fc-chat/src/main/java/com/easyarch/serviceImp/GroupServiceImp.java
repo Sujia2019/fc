@@ -1,6 +1,5 @@
 package com.easyarch.serviceImp;
 
-import com.easyarch.api.chat.GroupService;
 import com.easyarch.handler.NettyServerInitializer;
 import com.easyarch.model.chat.GroupMsg;
 import com.easyarch.model.chat.Type.GroupStatus;
@@ -19,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class GroupServiceImp extends GroupService {
 
     public static Map<String, ChannelGroup> groupMap = new ConcurrentHashMap<>();
-
+//
     public Object getObj(Object obj){
         GroupMsg group = (GroupMsg)obj;
         short status = group.getStatus();

@@ -67,6 +67,9 @@ public class MessageInvoker {
             userFactory.setCtx(ctx);
             msg = userFactory.handle(msg);
         }
+        else if (code <= CODE.CHAT_TYPE){
+            msg = chatFactory.handle(msg);
+        }
         //打机器人
         else if (code == CODE.FIGHT) {
             msg = monsterFactory.handle(msg);
@@ -74,7 +77,9 @@ public class MessageInvoker {
         //匹配
         else if (code <= CODE.MATCH_TYPE) {
             msg = matchFactory.handle(msg);
-        } else {
+        }
+
+        else {
             msg = exceptionFactory.handle(msg);
         }
 

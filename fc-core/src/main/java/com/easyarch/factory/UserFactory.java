@@ -1,6 +1,7 @@
 package com.easyarch.factory;
 
 import com.easyarch.cache.Maps;
+import com.easyarch.dao.mapper.GroupDao;
 import com.easyarch.dao.mapper.UserMapper;
 import com.easyarch.model.CodeRequest;
 import com.easyarch.model.Message;
@@ -24,6 +25,9 @@ public class UserFactory extends MessageAbstractFactory{
 
     @Autowired
     private UserMapper dao ;
+
+    @Autowired
+    private GroupDao groupDao;
 
 //    private UserDaoImp dao = new UserDaoImp();
 
@@ -73,8 +77,8 @@ public class UserFactory extends MessageAbstractFactory{
             String userId = us.getUserId();
 
             PlayerInfo player = getPlayer(userId);
-
-            Maps.userMap.put(userId,ctx.channel().id());
+//            Maps.userMap.put(userId,ctx.channel().id());
+            load(userId);
             msg.setObj(player);
         }else{
             msg.setObj("登录失败,用户名或密码错误");
@@ -103,7 +107,8 @@ public class UserFactory extends MessageAbstractFactory{
         else if(request.getStatus()==CODE.VERIFY){
             PlayerInfo player = codeLogin(request.getPhoneNumber(),request.getCode());
             if(null!=player){
-                Maps.userMap.put(request.getPhoneNumber(),ctx.channel().id());
+//                Maps.userMap.put(request.getPhoneNumber(),ctx.channel().id());
+                load(request.getPhoneNumber());
                 msg.setObj(player);
             }else{
                 msg.setObj("Error");
@@ -304,5 +309,11 @@ public class UserFactory extends MessageAbstractFactory{
     private String randomPwd(){
         int codeInt = (int)((Math.random()*9+1)*10000000);
         return String.valueOf(codeInt);
+    }
+
+    private void load(String id){
+        Maps.userMap.put(id,ctx.channel().id());
+        Maps.group.add(ctx.channel());
+        groupDao.searchGroup(id);
     }
 }

@@ -36,10 +36,10 @@ public class ChatFactory extends ChatService implements MessageFactory {
     @Override
     public SendMessage sendMessageToOne(SendMessage sm) {
         String toId = sm.getToId();
-        ChannelId id = null;
+//        ChannelId id = null;
         Channel channel = null;
         if(isInvalid(toId)){
-            id = Maps.userMap.get(toId);
+            ChannelId id = Maps.userMap.get(toId);
             channel = Maps.group.find(id);
         }else{
             return sendError(sm);

@@ -23,4 +23,5 @@ public class Maps {
     //范围 匹配
     public static Map<Integer, LinkedBlockingQueue<String>> map = new ConcurrentHashMap<>();
 
+
 }

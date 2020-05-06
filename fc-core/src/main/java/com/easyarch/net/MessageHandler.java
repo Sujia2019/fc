@@ -42,16 +42,30 @@ public class MessageHandler extends SimpleChannelInboundHandler<Message>{
         ctx.writeAndFlush(invoker.handle(ctx,msg));
     }
 
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        /*
+        推送服务
+        系统广播
+         */
+        super.channelActive(ctx);
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        super.channelActive(ctx);
+    }
+
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
         System.out.println("-------Regist-------");
-        Maps.group.add(ctx.channel());
+//        Maps.group.add(ctx.channel());
         super.channelRegistered(ctx);
     }
 
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
-//        MessageInvoker.userMap.keySet().
         System.out.println("-------UnRegist-------");
         super.channelUnregistered(ctx);
     }

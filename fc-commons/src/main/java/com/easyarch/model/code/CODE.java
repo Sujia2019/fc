@@ -49,14 +49,16 @@ public class CODE {
     好友系统
      */
     public static final int FRIEND = 13;
+
+    public static final int CHAT_TYPE = 20;
     /*
     购买物品
      */
-    public static final int BUY = 14;
+    public static final int BUY = 24;
     /*
     卖出物品
      */
-    public static final int SELL = 15;
+    public static final int SELL = 25;
 
 //---------------------------------------------------------------
     /*
