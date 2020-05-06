@@ -32,7 +32,7 @@ public class ChatServiceImp extends ChatService {
     }
 
     @Override
-    public boolean sendMessageToOne(SendMessage sm) {
+    public SendMessage sendMessageToOne(SendMessage sm) {
         String toId = sm.getToId();
         ChannelId id = NettyServerInitializer.userMap.get(toId);
         Channel channel = NettyServerInitializer.group.find(id);
@@ -43,24 +43,24 @@ public class ChatServiceImp extends ChatService {
             System.out.println(TimeUtils.getAllTime()+"---来自--"+sm.getFromId()+"--的离线消息:"+sm.getMsg());
             //发送离线留言
         }
-        return false;
+        return null;
     }
 
     @Override
-    public boolean sendMessageToGroup(SendMessage sm) {
+    public SendMessage sendMessageToGroup(SendMessage sm) {
         String groupId = sm.getToGroupId();
         ChannelGroup cg = GroupServiceImp.groupMap.get(groupId);
         if(cg!=null){
             cg.writeAndFlush(new Message(CODE.MESSAGE,sm));
-            return true;
+            return null;
         }
         System.out.println("发送失败");
-        return false;
+        return null;
     }
 
     @Override
-    public boolean sendMessageToAll(SendMessage sm) {
+    public SendMessage sendMessageToAll(SendMessage sm) {
         NettyServerInitializer.group.writeAndFlush(new Message(CODE.MESSAGE,sm));
-        return true;
+        return null;
     }
 }

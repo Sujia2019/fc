@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-public class GroupServiceImp extends GroupService {
+public class GroupServiceImp {
 
     public static Map<String, ChannelGroup> groupMap = new ConcurrentHashMap<>();
 //
@@ -30,7 +30,8 @@ public class GroupServiceImp extends GroupService {
         }
         return null;
     }
-    @Override
+
+
     public boolean createGroup(GroupMsg group) {
         String groupId = group.getGroupId();
         List<String> members = group.getMembersId();
@@ -48,19 +49,19 @@ public class GroupServiceImp extends GroupService {
         }
     }
 
-    @Override
+
     public boolean destroyGroup(GroupMsg group) {
         groupMap.remove(group.getGroupId());
         return true;
     }
 
-    @Override
+
     public boolean addManager(String groupId, String userId) {
 
         return false;
     }
 
-    @Override
+
     public boolean quitGroup() {
         return false;
     }

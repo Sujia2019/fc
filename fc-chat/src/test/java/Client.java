@@ -1,12 +1,9 @@
 import com.easyarch.NettyClient;
-import com.easyarch.entity.SendMessage;
-import com.easyarch.entity.Type.MsgType;
-import com.easyarch.entity.UserInfo;
-import com.easyarch.handler.model.CODE;
-import com.easyarch.handler.model.Message;
+import com.easyarch.model.Message;
 import com.easyarch.model.UserInfo;
-import org.junit.After;
-import org.junit.Assert;
+import com.easyarch.model.chat.SendMessage;
+import com.easyarch.model.chat.Type.MsgType;
+import com.easyarch.model.code.CODE;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,7 +21,7 @@ public class Client {
         UserInfo us = new UserInfo();
         us.setUserId("111111");
         us.setUserPwd("123456");
-        us.setUserName("test1");
+//        us.setUserName("test1");
         Message message = new Message(CODE.REGIST,us);
         client.sendMessage(message);
     }
@@ -35,7 +32,7 @@ public class Client {
         UserInfo us = new UserInfo();
         us.setUserId("222222");
         us.setUserPwd("123456");
-        us.setUserName("test2");
+//        us.setUserName("test2");
         Message message = new Message(CODE.LOGIN,us);
         client.sendMessage(message);
     }
