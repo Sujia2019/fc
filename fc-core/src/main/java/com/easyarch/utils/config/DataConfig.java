@@ -4,6 +4,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.easyarch.utils.info.JdbcInfo;
 import com.easyarch.utils.info.MongoInfo;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,6 +19,7 @@ import java.sql.SQLException;
 @Configuration
 @EnableTransactionManagement //开启事务管理
 @PropertySource("classpath:config.properties") // config.properties
+@MapperScan("com.easyarch.dao.mapper")
 @ComponentScan(basePackages = "com.easyarch.*")
 public class DataConfig {
 

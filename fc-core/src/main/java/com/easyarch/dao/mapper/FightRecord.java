@@ -1,7 +1,4 @@
-package com.easyarch.model.other;
-
-
-
+package com.easyarch.dao.mapper;
 import lombok.Data;
 
 import java.io.Serializable;

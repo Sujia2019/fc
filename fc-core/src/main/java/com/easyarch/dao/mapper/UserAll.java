@@ -1,7 +1,5 @@
 package com.easyarch.dao.mapper;
 
-import com.easyarch.model.UserSetting;
-import com.easyarch.model.other.FightRecord;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 

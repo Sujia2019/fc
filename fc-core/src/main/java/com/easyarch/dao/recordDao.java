@@ -1,8 +1,7 @@
 package com.easyarch.dao;
 
 
-import com.easyarch.model.other.FightRecord;
-import org.springframework.stereotype.Repository;
+import com.easyarch.dao.mapper.FightRecord;
 
 import java.util.List;
 

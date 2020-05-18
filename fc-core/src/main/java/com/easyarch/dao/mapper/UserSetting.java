@@ -1,4 +1,4 @@
-package com.easyarch.model;
+package com.easyarch.dao.mapper;
 
 import lombok.Data;
 
