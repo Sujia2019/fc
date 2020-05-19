@@ -1,4 +1,4 @@
-package com.easyarch.exception;
+package com.easyarch.api.exception;
 
 /**
  * 重试的错误类型

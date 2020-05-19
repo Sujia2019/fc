@@ -14,7 +14,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
 
         <maven.compiler.target>1.8</maven.compiler.target>
-        <spring.version>5.2.4.RELEASE</spring.version>
+        <spring.version>5.2.6.RELEASE</spring.version>
     </properties>
     <modules>
         <module>fc-core</module>
@@ -23,6 +23,7 @@
         <module>fc-center</module>
         <module>fc-client</module>
         <module>fc-commons</module>
+        <module>fc-promote</module>
     </modules>
 
 </project>

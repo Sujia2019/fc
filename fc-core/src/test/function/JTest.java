@@ -1,7 +1,7 @@
 package function;
 
 import com.easyarch.dao.mapper.UserMapper;
-import com.easyarch.factory.UserFactory;
+import com.easyarch.api.UserFactory;
 import com.easyarch.model.Message;
 import com.easyarch.model.UserInfo;
 import com.easyarch.model.code.CODE;

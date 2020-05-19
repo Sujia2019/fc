@@ -1,6 +1,7 @@
-package com.easyarch.factory;
+package com.easyarch.api.exception;
 
 
+import com.easyarch.api.MessageAbstractFactory;
 import com.easyarch.model.Message;
 import org.springframework.stereotype.Component;
 

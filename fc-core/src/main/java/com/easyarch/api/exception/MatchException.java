@@ -1,4 +1,4 @@
-package com.easyarch.exception;
+package com.easyarch.api.exception;
 
 import com.easyarch.model.Message;
 import com.easyarch.model.code.CODE;

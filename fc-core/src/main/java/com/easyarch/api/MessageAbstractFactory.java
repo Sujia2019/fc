@@ -1,6 +1,5 @@
-package com.easyarch.factory;
+package com.easyarch.api;
 
-import com.easyarch.api.MessageFactory;
 import com.easyarch.model.Message;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Component;
@@ -16,7 +15,7 @@ public abstract class MessageAbstractFactory implements MessageFactory {
 
 
 //    @Autowired
-    MessageAbstractFactory(){
+    public MessageAbstractFactory(){
         /*
         ...
         ...

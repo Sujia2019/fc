@@ -2,6 +2,7 @@ package com.easyarch.dao.mapper;
 
 import com.easyarch.utils.MongoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
@@ -9,15 +10,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserAllDoc {
     @Autowired
-    private MongoUtil mongoUtil;
+    private MongoTemplate mongoTemplate;
 
-
+//    private MongoUtil mongoUtil = new MongoUtil();
 
     /*
     插入用户记录
      */
     public void insertUserDoc(UserAll userAll){
-        mongoUtil.getMongoTemplate().insert(userAll);
+        mongoTemplate.insert(userAll);
     }
     /*
     更新用户文档
@@ -37,11 +38,11 @@ public class UserAllDoc {
      */
     public void delUserDoc(String userId){
         Query query=new Query(Criteria.where("userId").is(userId));
-        mongoUtil.getMongoTemplate().remove(query,GroupMsg.class,"userAll").getDeletedCount();
+        mongoTemplate.remove(query,GroupMsg.class,"userAll").getDeletedCount();
     }
 
     public UserAll getUserDoc(String userId){
         Query query = new Query(Criteria.where("userId").is(userId));
-        return mongoUtil.getMongoTemplate().findOne(query, UserAll.class);
+        return mongoTemplate.findOne(query, UserAll.class);
     }
 }

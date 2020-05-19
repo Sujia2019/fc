@@ -1,4 +1,4 @@
-package com.easyarch.factory.chat;
+package com.easyarch.api.chat;
 
 import com.easyarch.api.MessageFactory;
 import com.easyarch.cache.Maps;

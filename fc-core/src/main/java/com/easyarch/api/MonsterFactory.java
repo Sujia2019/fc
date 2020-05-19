@@ -1,4 +1,4 @@
-package com.easyarch.factory;
+package com.easyarch.api;
 
 import com.easyarch.model.Attribute;
 import com.easyarch.model.Message;

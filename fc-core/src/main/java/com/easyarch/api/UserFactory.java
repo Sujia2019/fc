@@ -1,4 +1,4 @@
-package com.easyarch.factory;
+package com.easyarch.api;
 
 import com.easyarch.cache.Maps;
 import com.easyarch.dao.mapper.GroupDao;
@@ -8,7 +8,6 @@ import com.easyarch.model.Message;
 import com.easyarch.model.PlayerInfo;
 import com.easyarch.model.UserInfo;
 import com.easyarch.model.code.CODE;
-import com.easyarch.net.MessageHandler;
 import com.easyarch.utils.RedisUtil;
 import com.easyarch.utils.Verify;
 import io.netty.channel.ChannelHandlerContext;

@@ -38,7 +38,7 @@ public class TestMongo {
     @Test
     public void createUserDoc(){
         UserAll userDoc = new UserAll();
-        userDoc.setUserId("184500237");
+        userDoc.setUserId("18539403150");
         userDoc.setUserpwd("123456");
         ArrayList<String> groups = new ArrayList<>();
         groups.add("111");

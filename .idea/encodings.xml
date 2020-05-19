@@ -14,6 +14,7 @@
     <file url="file://$PROJECT_DIR$/fc-core" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fc-core/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fc-core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fc-promote" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fc-word" charset="UTF-8" />
   </component>
 </project>

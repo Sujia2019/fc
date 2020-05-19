@@ -3,6 +3,11 @@ package com.easyarch.utils.config;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.easyarch.utils.info.JdbcInfo;
 import com.easyarch.utils.info.MongoInfo;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.MongoCredential;
+import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,11 +15,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.mongodb.MongoDatabaseFactory;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.sql.SQLException;
+
+import static java.util.Collections.singletonList;
 
 @Configuration
 @EnableTransactionManagement //开启事务管理
@@ -59,50 +69,19 @@ public class DataConfig {
         return sqlSessionFactoryBean;
     }
 
-//    @Bean
-//    public MongoTemplate getTemplate(){
-//        String defaultDataBaseName = "admin";
-//        //address
-//        ServerAddress address = new ServerAddress(mongoInfo.getHost(), mongoInfo.getPort());
-//        //client
-//        MongoCredential mongoCredential = MongoCredential.createCredential(
-//                mongoInfo.getUsername(),
-//                defaultDataBaseName,
-//                mongoInfo.getUserpwd().toCharArray());
-//        List<MongoCredential> mongoCredentials = new ArrayList<>();
-//        mongoCredentials.add(mongoCredential);
-//        MongoClient client = new MongoClient(address,mongoCredentials);
-//        //factory
-//        SimpleMongoDbFactory factory = new SimpleMongoDbFactory(client, defaultDataBaseName);
-//        //template
-//        return new MongoTemplate(factory);
-//    }
+    @Bean
+    public MongoClient mongoClient(){
+        return MongoClients.create(
+                MongoClientSettings.builder()
+                        .credential(MongoCredential.createCredential("admin", "admin", "admin".toCharArray()))
+                        .applyToClusterSettings(settings  -> {
+                            settings.hosts(singletonList(new ServerAddress("47.93.225.242", 27017)));
+                        }).build());
+    }
 
-//    @Bean
-//    public MongoTemplate getTemplate(){
-//        String host ="47.93.225.242";
-//        int port = 27017;
-//        String username = "admin";
-//        String password = "admin";
-//        String defaultDataBaseName = "admin";
-//
-//        //address
-//        ServerAddress address = new ServerAddress(host, port);
-//
-//        //client
-//        MongoCredential mongoCredential = MongoCredential.createCredential(username, defaultDataBaseName, password.toCharArray());
-//        List<MongoCredential> mongoCredentials = new ArrayList<>();
-//        mongoCredentials.add(mongoCredential);
-//        MongoClient client = new MongoClient(address,mongoCredentials);
-//
-//        //factory
-//        SimpleMongoClientDbFactory factory = new SimpleMongoClientDbFactory(client, defaultDataBaseName);
-//
-//        //template
-//        MongoTemplate template = new MongoTemplate(factory);
-//
-//        return template;
-//    }
+    @Bean
+    public MongoTemplate mongoTemplate() {
 
-
+        return new MongoTemplate(new SimpleMongoClientDatabaseFactory(MongoClients.create(), "admin"));
+    }
 }

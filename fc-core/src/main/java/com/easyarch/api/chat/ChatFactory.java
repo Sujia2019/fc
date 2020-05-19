@@ -1,13 +1,11 @@
-package com.easyarch.factory.chat;
+package com.easyarch.api.chat;
 
 import com.easyarch.api.MessageFactory;
-import com.easyarch.api.chat.ChatService;
 import com.easyarch.cache.Maps;
 import com.easyarch.model.Message;
 import com.easyarch.model.chat.SendMessage;
 import com.easyarch.model.chat.Type.MsgType;
 import com.easyarch.model.code.CODE;
-import com.easyarch.net.MessageHandler;
 import com.easyarch.utils.TimeUtils;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
