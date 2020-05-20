@@ -4,15 +4,10 @@ import com.easyarch.dao.mapper.FightRecord;
 import com.easyarch.dao.mapper.UserAll;
 import com.easyarch.dao.mapper.UserAllDoc;
 import com.easyarch.dao.mapper.UserSetting;
-import com.easyarch.utils.MongoUtil;
 import com.easyarch.utils.config.DataConfig;
-import com.easyarch.utils.config.NettyConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 

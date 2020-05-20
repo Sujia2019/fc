@@ -15,9 +15,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
+import org.springframework.data.mongodb.core.SimpleMongoClientDbFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.annotation.Resource;
@@ -82,6 +81,6 @@ public class DataConfig {
     @Bean
     public MongoTemplate mongoTemplate() {
 
-        return new MongoTemplate(new SimpleMongoClientDatabaseFactory(MongoClients.create(), "admin"));
+        return new MongoTemplate(new SimpleMongoClientDbFactory(MongoClients.create(), "admin"));
     }
 }

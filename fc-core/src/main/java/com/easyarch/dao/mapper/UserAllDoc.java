@@ -1,6 +1,5 @@
 package com.easyarch.dao.mapper;
 
-import com.easyarch.utils.MongoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -11,8 +10,6 @@ import org.springframework.stereotype.Component;
 public class UserAllDoc {
     @Autowired
     private MongoTemplate mongoTemplate;
-
-//    private MongoUtil mongoUtil = new MongoUtil();
 
     /*
     插入用户记录
