@@ -1,7 +1,6 @@
 package com.easyarch;
 
 import com.easyarch.net.NettyServer;
-import com.easyarch.utils.config.DataConfig;
 import com.easyarch.utils.config.NettyConfig;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 

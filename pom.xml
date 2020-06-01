@@ -18,12 +18,31 @@
     </properties>
     <modules>
         <module>fc-core</module>
-        <module>fc-chat</module>
         <module>fc-word</module>
         <module>fc-center</module>
         <module>fc-client</module>
         <module>fc-commons</module>
         <module>fc-promote</module>
     </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.5.5</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.easyarch.ServerMain</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

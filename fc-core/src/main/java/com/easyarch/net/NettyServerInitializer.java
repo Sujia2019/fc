@@ -1,6 +1,7 @@
 package com.easyarch.net;
 
 import com.easyarch.model.Message;
+import com.easyarch.serialize.imp.GsonSerializer;
 import com.easyarch.serialize.imp.ProtoStuffSerializer;
 import com.easyarch.utils.Beat;
 import io.netty.channel.ChannelInitializer;
@@ -23,8 +24,8 @@ public class NettyServerInitializer extends ChannelInitializer<SocketChannel> {
         ChannelPipeline pipeline = ch.pipeline();
         pipeline.addLast(new IdleStateHandler(0, 0,
                 Beat.BEAT_INTERVAL * 3, TimeUnit.SECONDS));
-        pipeline.addLast(new NettyDecoder(Message.class,new ProtoStuffSerializer()));
-        pipeline.addLast(new NettyEncoder(Message.class,new ProtoStuffSerializer()));
+        pipeline.addLast(new NettyDecoder(Message.class,new GsonSerializer()));
+        pipeline.addLast(new NettyEncoder(Message.class,new GsonSerializer()));
 
         pipeline.addLast(messageHandler);
 

@@ -21,7 +21,7 @@ public class RedisTest {
     public void init(){
         //单机测试
         RedisURI uri = RedisURI.builder()
-                .withHost("localhost")
+                .withHost("47.93.225.242")
                 .withPort(6379)
                 .withTimeout(Duration.of(10, ChronoUnit.SECONDS))
                 .build();                                         //创建单机连接信息

@@ -12,8 +12,8 @@ import org.springframework.stereotype.Controller;
 
 import javax.annotation.PostConstruct;
 
-//@Controller
-//@PropertySource("classpath:config.properties")
+@Controller
+@PropertySource("classpath:config.properties")
 public class NettyServer{
 
     @Value("#{${netty.port}}")

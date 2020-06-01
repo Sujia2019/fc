@@ -39,6 +39,8 @@ public class MessageHandler extends SimpleChannelInboundHandler<Message>{
 //                ctx.writeAndFlush(invoker.handle(ctx,msg));
 //            }
 //        });
+
+        Maps.group.writeAndFlush(msg);
         ctx.writeAndFlush(invoker.handle(ctx,msg));
     }
 
