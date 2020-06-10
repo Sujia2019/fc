@@ -2,6 +2,7 @@ package com.easyarch.net;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -30,7 +31,8 @@ public class NettyServer{
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workerGroup);
             b.channel(NioServerSocketChannel.class);
-            b.childHandler(nettyServerInitializer);
+            b.childHandler(nettyServerInitializer)
+                    .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000);;
 
             ChannelFuture f = b.bind(port).sync();
             f.channel().closeFuture().sync();

@@ -12,6 +12,8 @@ import io.netty.channel.ChannelId;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +21,7 @@ import java.util.List;
 
 @Component
 public class GroupFactory extends GroupService implements MessageFactory{
+    private static final Logger logger = LoggerFactory.getLogger(GroupFactory.class);
 
     @Autowired
     private GroupDao dao;

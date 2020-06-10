@@ -10,6 +10,8 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import com.easyarch.model.Message;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +23,7 @@ import java.util.concurrent.Executors;
 @Component
 @ChannelHandler.Sharable
 public class MessageHandler extends SimpleChannelInboundHandler<Message>{
+    private static final Logger logger = LoggerFactory.getLogger(MessageHandler.class);
 
     @Autowired
     private MessageInvoker invoker ;
@@ -30,9 +33,9 @@ public class MessageHandler extends SimpleChannelInboundHandler<Message>{
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Message msg) throws Exception {
         int code = msg.getMsgCode();
-        System.out.println("code:"+code);
-        System.out.println("------reading------");
-        System.out.println(msg.getObj());
+
+        logger.info("传入【{}】信息,读取对象【{}】",code,msg.getObj());
+
 //        pool.execute(new Runnable() {
 //            @Override
 //            public void run() {
@@ -40,8 +43,11 @@ public class MessageHandler extends SimpleChannelInboundHandler<Message>{
 //            }
 //        });
 
-        Maps.group.writeAndFlush(msg);
-        ctx.writeAndFlush(invoker.handle(ctx,msg));
+//        Maps.group.writeAndFlush(msg);
+        msg = invoker.handle(ctx,msg);
+        ctx.writeAndFlush(msg);
+        logger.info("---发送信息【{}】---",msg);
+
     }
 
 
@@ -61,14 +67,14 @@ public class MessageHandler extends SimpleChannelInboundHandler<Message>{
 
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("-------Regist-------");
+        logger.info("------用户注册------");
 //        Maps.group.add(ctx.channel());
         super.channelRegistered(ctx);
     }
 
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("-------UnRegist-------");
+        logger.info("------用户离线------");
         super.channelUnregistered(ctx);
     }
 }

@@ -18,8 +18,8 @@ public class TestVerify {
         //验证码请求
         CodeRequest request = new CodeRequest();
         request.setPhoneNumber("18539403150");
-        request.setStatus(CODE.VERIFY);
-        request.setCode("910356");
+        request.setStatus(CODE.SEND);
+//        request.setCode("910356");
 
         message.setObj(request);
         client.sendMessage(message);

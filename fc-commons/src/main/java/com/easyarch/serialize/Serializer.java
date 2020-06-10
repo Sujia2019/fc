@@ -1,6 +1,5 @@
 package com.easyarch.serialize;
-
-import com.easyarch.serialize.imp.GsonSerializer;
+import com.easyarch.serialize.imp.ProtoStuffSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,10 +11,7 @@ public abstract class Serializer {
 
     public enum SerializerEnum{
 
-        GSON(GsonSerializer.class);
-
-
-
+        PROTOSTUFF(ProtoStuffSerializer.class);
 
         private Class<? extends Serializer> serializerClass;
         SerializerEnum(Class<? extends Serializer> serializerClass){

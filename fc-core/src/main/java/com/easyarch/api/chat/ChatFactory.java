@@ -1,5 +1,6 @@
 package com.easyarch.api.chat;
 
+import com.easyarch.api.MatchFactory;
 import com.easyarch.api.MessageFactory;
 import com.easyarch.cache.Maps;
 import com.easyarch.model.Message;
@@ -10,10 +11,15 @@ import com.easyarch.utils.TimeUtils;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
 import io.netty.channel.group.ChannelGroup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ChatFactory extends ChatService implements MessageFactory {
+    private static final Logger logger = LoggerFactory.getLogger(ChatFactory.class);
+
+
     @Override
     public Message handle(Message msg) {
         SendMessage sm = (SendMessage)msg.getObj();

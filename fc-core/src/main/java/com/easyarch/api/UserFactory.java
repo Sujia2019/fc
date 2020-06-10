@@ -12,6 +12,8 @@ import com.easyarch.utils.RedisUtil;
 import com.easyarch.utils.Verify;
 import io.netty.channel.ChannelHandlerContext;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +23,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UserFactory extends MessageAbstractFactory{
+
+    private static final Logger logger = LoggerFactory.getLogger(UserFactory.class);
+
 
     @Autowired
     private UserMapper dao ;
@@ -46,6 +51,8 @@ public class UserFactory extends MessageAbstractFactory{
         }else if(code == CODE.SAVE){
             return handleSave(msg);
         }else{
+            logger.info("------业务转发异常------");
+
             msg.setObj("ERROR");
         }
         return msg;
@@ -55,6 +62,7 @@ public class UserFactory extends MessageAbstractFactory{
     普通的用户名密码注册
      */
     private Message handleRegist(ChannelHandlerContext ctx, Message msg){
+        logger.info("------进入普通注册------");
         UserInfo us = (UserInfo) msg.getObj();
         if(regist(us)){
             //初始化玩家信息
@@ -70,29 +78,35 @@ public class UserFactory extends MessageAbstractFactory{
     普通的用户名密码登录
      */
     private Message handleLogin(ChannelHandlerContext ctx, Message msg){
-        System.out.println("login----");
+        logger.info("------进入普通登录------");
         UserInfo us = (UserInfo) msg.getObj();
         if(null!=login(us)){
             String userId = us.getUserId();
 
             PlayerInfo player = getPlayer(userId);
-//            Maps.userMap.put(userId,ctx.channel().id());
+            logger.info("------获取玩家信息【{}】------",player);
+
             load(userId);
             msg.setObj(player);
         }else{
+            logger.info("------登录失败，用户名或密码错误------");
             msg.setObj("登录失败,用户名或密码错误");
         }
         return msg;
     }
 
     private Message handleCodeRegist(Message msg){
+        logger.info("------进入验证码注册登录------");
         CodeRequest request = (CodeRequest)msg.getObj();
         if(request.getStatus()==CODE.SEND){
+            logger.info("---【注册】---发送验证码------");
             msg.setObj(sendRegistCode(request.getPhoneNumber()));
         }
         else if(request.getStatus()==CODE.VERIFY){
+            logger.info("---【注册】---校验验证码------");
             msg.setObj(codeRegist(request.getPhoneNumber(),request.getCode()));
         }else{
+            logger.info("---【注册】---验证码错误------");
             msg.setObj("Error");
         }
         return msg;
@@ -100,16 +114,21 @@ public class UserFactory extends MessageAbstractFactory{
     }
     private Message handleCodeLogin(Message msg){
         CodeRequest request = (CodeRequest)msg.getObj();
+        logger.info("------进入验证码登录------");
         if(request.getStatus()==CODE.SEND){
+            logger.info("---【登录】---发送验证码------");
             msg.setObj(sendLoginCode(request.getPhoneNumber()));
         }
         else if(request.getStatus()==CODE.VERIFY){
+            logger.info("---【登录】---校验验证码------");
             PlayerInfo player = codeLogin(request.getPhoneNumber(),request.getCode());
             if(null!=player){
+                logger.info("---【登录】---获取玩家信息【{}】------",player);
 //                Maps.userMap.put(request.getPhoneNumber(),ctx.channel().id());
                 load(request.getPhoneNumber());
                 msg.setObj(player);
             }else{
+                logger.info("---【登录】---验证码错误------");
                 msg.setObj("Error");
             }
         }else{
@@ -129,6 +148,7 @@ public class UserFactory extends MessageAbstractFactory{
         //如果用户不存在
         if(!isUser(phoneNumber)){
             //发送验证码
+
             Verify.sendCode(phoneNumber);
             return "发送成功";
         }else{
@@ -168,6 +188,7 @@ public class UserFactory extends MessageAbstractFactory{
             user.setUserId(phoneNumber);
             user.setUserPwd(randomPwd());
             regist(user);
+            logger.info("------用户【{}】验证码校验成功------",phoneNumber);
             return playerInit(phoneNumber);
         }else{
             return "验证码错误";
@@ -220,6 +241,7 @@ public class UserFactory extends MessageAbstractFactory{
     初始化玩家信息
      */
     private PlayerInfo playerInit(String id){
+
         PlayerInfo player = new PlayerInfo();
         player.setUserId(id);
         player.setUserName("test");
@@ -231,6 +253,7 @@ public class UserFactory extends MessageAbstractFactory{
 //            redis缓存一份
             RedisUtil.updatePlayer(player);
         }
+        logger.info("------加载玩家【{}】信息------",player.getUserId());
         return player;
 //
     }
@@ -239,21 +262,21 @@ public class UserFactory extends MessageAbstractFactory{
         return dao.updatePlayer(player) != 0;
     }
 
-    public PlayerInfo getPlayer(String userId){
+    private PlayerInfo getPlayer(String userId){
         PlayerInfo player = null;
          //如果在redis里
         if(RedisUtil.isContainsKey(userId)){
-            System.out.println("Redis");
             player = RedisUtil.getPlayer(userId);
+            logger.info("------从缓存Redis中获取玩家信息【{}】------",player);
+
         }
         //如果没在redis里
         else{
-            System.out.println("MySQL");
             player = dao.getPlayer(userId);
+            //更新缓存
+            RedisUtil.updatePlayer(player);
+            logger.info("------从MySQL中获取玩家信息【{}】------",player);
         }
-//        if(player!=null){
-//            RedisUtil.updatePlayer(player);
-//        }
         return player;
     }
 
@@ -264,6 +287,7 @@ public class UserFactory extends MessageAbstractFactory{
         PlayerInfo player = (PlayerInfo)msg.getObj();
 //
         if(!RedisUtil.updatePlayer(player)){
+            logger.info("------更新失败【{}】------",player);
             msg.setObj("更新失败");
         }
         return msg;
@@ -279,9 +303,11 @@ public class UserFactory extends MessageAbstractFactory{
         if(updatePlayer(playerInfo)){
             msg.setMsgCode(CODE.SUCCESS);
             msg.setObj("保存成功！");
+            logger.info("------保存成功【{}】------",playerInfo);
             return msg;
         }
         msg.setMsgCode(CODE.ERROR);
+        logger.info("------保存失败【{}】------",playerInfo);
         msg.setObj("保存失败");
         return msg;
     }
@@ -311,8 +337,11 @@ public class UserFactory extends MessageAbstractFactory{
     }
 
     private void load(String id){
+        logger.info("------加载【{}】玩家------",id);
+
         Maps.userMap.put(id,ctx.channel().id());
         Maps.group.add(ctx.channel());
+        //查询玩家的群组
         groupDao.searchGroup(id);
     }
 }
