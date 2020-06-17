@@ -341,7 +341,7 @@ public class UserFactory extends MessageAbstractFactory{
 
         Maps.userMap.put(id,ctx.channel().id());
         Maps.group.add(ctx.channel());
-        //查询玩家的群组
-        groupDao.searchGroup(id);
+        //查询玩家的群组 这里有堵塞 不知道什么问题 待解决
+//        groupDao.searchGroup(id);
     }
 }

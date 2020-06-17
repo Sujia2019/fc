@@ -8,16 +8,21 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Verify {
+    private static final Logger logger = LoggerFactory.getLogger(Verify.class);
+
 
     public static void sendCode(String phoneNumber ){
         int codeInt = (int)((Math.random()*9+1)*100000);
         String i = String.valueOf(codeInt);
 
         DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou",
-                "your-accesskey", "your-accesskey-password");
+                "LTAI4G1zPmUzngP2545Hs8pE", "hnoNNYHi6Z2NrfhEn51agnqwuKIxLl");
         IAcsClient client = new DefaultAcsClient(profile);
+
 
         CommonRequest request = new CommonRequest();
         request.setSysMethod(MethodType.POST);
@@ -25,23 +30,25 @@ public class Verify {
         request.setSysVersion("2017-05-25");
         request.setSysAction("SendSms");
         request.putQueryParameter("RegionId", "cn-hangzhou");
-        request.putQueryParameter("PhoneNumbers", phoneNumber);
-        request.putQueryParameter("SignName", "xxx");
-        request.putQueryParameter("TemplateCode", "SMS_xxx");
+        request.putQueryParameter("PhoneNumbers", "18539403150");
+        request.putQueryParameter("SignName", "灵魂决斗");
+        request.putQueryParameter("TemplateCode", "SMS_189611057");
         request.putQueryParameter("TemplateParam", "{\"code\":\""+i+"\"}");
         try {
             CommonResponse response = client.getCommonResponse(request);
-            System.out.println(response.getData());
+            logger.info("------输出发送验证码的信息【{}】------",response.getData());
+            //向缓存中加入验证码信息
+            RedisUtil.insertCode(phoneNumber,i);
+
         } catch (ServerException e) {
             e.printStackTrace();
         } catch (ClientException e) {
             e.printStackTrace();
         }
 
-        RedisUtil.insertCode(phoneNumber,i);
     }
 //    public static void main(String[] args) {
-//        sendCode("18539403150");
+//        sendCode("13503844807");
 //    }
 
 }

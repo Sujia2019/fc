@@ -4,6 +4,8 @@ import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +18,7 @@ import java.time.temporal.ChronoUnit;
 //@Configuration
 @PropertySource("classpath:config.properties")
 public class RedisUtil {
+    private static final Logger logger = LoggerFactory.getLogger(RedisUtil.class);
 
     private static StatefulRedisConnection<String,String> connection;
     private static RedisUtil redisUtil = new RedisUtil();
@@ -32,7 +35,7 @@ public class RedisUtil {
 
     private RedisUtil(){
         RedisURI uri = RedisURI.builder()
-                .withHost("47.93.225.242")
+                .withHost("localhost")
                 .withPort(6379)
                 .withTimeout(Duration.of(10, ChronoUnit.SECONDS))
                 .build();                                         //创建单机连接信息
@@ -64,7 +67,7 @@ public class RedisUtil {
 
     public static Boolean updatePlayer(PlayerInfo playerInfo){
         String userId = playerInfo.getUserId();
-        System.out.println(playerInfo);
+        logger.info("------向Redis中更新玩家数据【{}】------",playerInfo);
         return
                 commands.hset(userId,USERNAME,playerInfo.getUserName())&&
                 commands.hset(userId,FIGHTCOUNT,""+playerInfo.getFightCount())&&
