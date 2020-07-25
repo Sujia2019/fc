@@ -8,6 +8,7 @@ import java.io.Serializable;
 @Data
 public class Message implements Serializable {
     private int msgCode;   //消息代码  用于分辨处理
+    private String msgId;   //消息id
     private Object obj;
 
     public Message(){

@@ -1,7 +1,5 @@
 package com.easyarch.model;
 
-
-
 import lombok.Data;
 
 import java.io.Serializable;

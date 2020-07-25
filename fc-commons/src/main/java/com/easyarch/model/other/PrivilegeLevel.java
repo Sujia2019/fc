@@ -1,9 +1,9 @@
 package com.easyarch.model.other;
 
 public enum PrivilegeLevel {
-    GM ,
+    GM,
 
-    NORMAL ,
+    NORMAL,
 
     VIP
 }

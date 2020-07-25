@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class Operation {
-
+    private String operationId;
     private int level;
     private int action;
     private Attribute attribute;
@@ -18,7 +18,8 @@ public class Operation {
 
     @Override
     public String toString(){
-        return "Operation(level:" +level+
+        return "Operation(operationId:"+operationId+
+                ",level:" +level+
                 ",action:" +action+
                 ",attribute:" +attribute+
                 ",enemyId:" +enemyId+
