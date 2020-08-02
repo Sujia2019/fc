@@ -119,7 +119,24 @@ public class CODE {
      */
     public static final int PING = 120;
 
-
+//-----------------------------------------------------------------
+    //推送
+    /*
+    系统提示
+     */
+    public static final int PUSH_GM = 9999;
+    /*
+    活动推送
+     */
+    public static final int PUSH_ACTIVITY=10000;
+    /*
+    普通消息
+     */
+    public static final int PUSH_NORMAL = 10001;
+    /*
+    VIP消息
+     */
+    public static final int PUSH_VIP = 10002;
 
 
 

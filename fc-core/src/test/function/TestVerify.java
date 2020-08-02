@@ -13,13 +13,13 @@ public class TestVerify {
         NettyClient client = new NettyClient();
 
         Message message = new Message();
-        message.setMsgCode(CODE.LOGIN_PHONE);
+        message.setMsgCode(CODE.REGIST_PHONE);
 
         //验证码请求
         CodeRequest request = new CodeRequest();
-        request.setPhoneNumber("18539403150");
-        request.setStatus(CODE.SEND);
-//        request.setCode("910356");
+        request.setPhoneNumber("13901122775");
+        request.setStatus(CODE.VERIFY);
+        request.setCode("944205");
 
         message.setObj(request);
         client.sendMessage(message);

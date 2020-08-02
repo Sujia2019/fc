@@ -6,7 +6,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public abstract class MessageAbstractFactory implements MessageFactory {
-
+    //要处理的消息
+    protected Message message;
     ChannelHandlerContext ctx;
     /*
     必须实现的方法

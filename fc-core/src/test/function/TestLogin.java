@@ -20,7 +20,7 @@ public class TestLogin {
         message.setMsgCode(CODE.LOGIN);
 
         UserInfo userInfo = new UserInfo();
-        userInfo.setUserId("iiii");
+        userInfo.setUserId("aaaa");
         userInfo.setUserPwd("123456");
         message.setObj(userInfo);
 //        start = System.currentTimeMillis();

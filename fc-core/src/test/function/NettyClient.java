@@ -29,9 +29,7 @@ public class NettyClient{
         Bootstrap client = new Bootstrap();
         EventLoopGroup group = new NioEventLoopGroup();
         client.group(group);
-
         client.channel(NioSocketChannel.class);
-
         client.handler(new ChannelInitializer<SocketChannel>() {
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
@@ -45,7 +43,7 @@ public class NettyClient{
                 .option(ChannelOption.SO_KEEPALIVE, true)
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000);
         try {
-            future = client.connect("localhost",8888).sync();
+            future = client.connect("47.93.225.242",8888).sync();
             System.out.println("------connect------");
 
         } catch (InterruptedException e) {
@@ -54,7 +52,6 @@ public class NettyClient{
     }
 
     public void sendMessage(Message message){
-
         executor.execute(() -> {
             try {
                 future.channel().writeAndFlush(message).sync();
